@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     widgets (0.0.1)
+      guid
       rails (~> 3.2.11)
 
 GEM
@@ -112,7 +113,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  guid
   jquery-rails
   rspec-rails
   specstar-support-random (~> 0.0.6)
