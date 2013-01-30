@@ -13,8 +13,11 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
 
-  s.add_dependency "rails", "~> 3.2.11"
+  s.add_dependency 'rails', '~> 3.2.11'
 
-  s.add_development_dependency "rspec-rails"
-  s.add_development_dependency "sqlite3"
+  s.add_development_dependency 'guid'
+  s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'specstar-support-random', '~> 0.0.6'
+  s.add_development_dependency 'sqlite3'
+  s.add_development_dependency 'webrat'
 end
