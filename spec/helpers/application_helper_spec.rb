@@ -6,6 +6,9 @@ describe ApplicationHelper do
     let(:contents) { random_text :length => 256 }
     let(:name) { File.join random_text, random_text }
     let(:options) { {random_text => random_time, random_text => random_url} }
+    let(:widget_id) { Guid.new.to_s }
+
+    before { Guid.stub(:new).and_return(widget_id) }
 
     it 'should render the specified widget as a template for its content.' do
       view.should_receive(:render).with(hash_including :template => "widgets/#{name}").and_return(contents)
@@ -13,12 +16,33 @@ describe ApplicationHelper do
       helper.widget(name, options).should contain contents
     end
 
+    it 'should pass in the options as local parameters.' do
+      view.should_receive(:render).with(hash_including :locals => hash_including(options))
+      helper.widget(name, options)
+    end
+
+    it 'should pass in the widget id as local parameters.' do
+      view.should_receive(:render) do |options|
+        options[:locals][:widget_id].should == widget_id
+      end
+
+      helper.widget(name, options)
+    end
+
+    it 'should not override widget_id if explicitly specified.' do
+      overridden_widget_id = random_text
+
+      view.should_receive(:render) do |options|
+        options[:locals][:widget_id].should == overridden_widget_id
+      end
+
+      helper.widget(name, options.merge(:widget_id => overridden_widget_id))
+    end
+
     it 'should render a div with a unique id.' do
-      #id = Guid.new.to_s
-      Guid.stub!(:new).and_return(id = Guid.new.to_s)
       view.stub! :render
 
-      helper.widget(name, options).should have_selector 'div', :id => id
+      helper.widget(name, options).should have_selector 'div', :id => widget_id
     end
 
     it 'should include the widget name as a data attribute.' do
@@ -36,8 +60,11 @@ describe ApplicationHelper do
           helper.widget(name, options.merge(:style => style)).should have_selector 'div[style]', :style => style
         end
 
-        it 'passes all options excluding the width as locals to the content template.' do
-          view.should_receive(:render).with(hash_including :locals => options)
+        it 'passes all options excluding the style as locals to the content template.' do
+          view.should_receive(:render) do |options|
+	    options[:locals].should_not include :style
+	  end
+
           helper.widget name, options.merge(:style => style)
         end
       end
@@ -47,11 +74,6 @@ describe ApplicationHelper do
           view.stub! :render
 
           helper.widget(name, options).should_not have_selector 'div[style]'
-        end
-
-        it 'passes all options as locals to the content template.' do
-          view.should_receive(:render).with(hash_including :locals => options)
-          helper.widget(name, options)
         end
       end
     end
@@ -66,8 +88,11 @@ describe ApplicationHelper do
           helper.widget(name, options.merge(:effects => effects)).should have_selector 'div[class]', :class => effects
         end
 
-        it 'passes all options excluding the width as locals to the content template.' do
-          view.should_receive(:render).with(hash_including :locals => options)
+        it 'passes all options excluding the effects as locals to the content template.' do
+          view.should_receive(:render) do |options|
+	    options[:locals].should_not include :effects
+	  end
+
           helper.widget name, options.merge(:effects => effects)
         end
       end
@@ -77,11 +102,6 @@ describe ApplicationHelper do
           view.stub! :render
 
           helper.widget(name, options).should_not have_selector 'div[class]'
-        end
-
-        it 'passes all options as locals to the content template.' do
-          view.should_receive(:render).with(hash_including :locals => options)
-          helper.widget(name, options)
         end
       end
     end

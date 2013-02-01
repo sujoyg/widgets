@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    widgets (0.0.1)
+    widgets (0.1.0)
       guid
       rails (~> 3.2.11)
 
