@@ -1,3 +1,5 @@
+require 'guid'
+
 module ApplicationHelper
   def widget(name, options={}, &block)
     id = Guid.new.to_s
@@ -5,12 +7,19 @@ module ApplicationHelper
     attributes = {:id => id, :'data-widget' => name, :style => options.delete(:style), :class => options.delete(:effects)}
     options[:widget_id] = id unless options.include? :widget_id
 
-    contents = if block_given?
-                 render :layout => partial, :inline => capture(&block), :locals => options, :formats => [:html]
-               else
-                 render :template => partial, :locals => options
-               end
+    html = if block_given?
+             render :layout => partial, :inline => capture(&block), :locals => options, :formats => [:html]
+           else
+             render :template => partial, :locals => options, :formats => [:html]
+           end
 
-    content_tag :div, contents, attributes
+    javascript = render :template => partial, :locals => options, :formats => [:js] rescue ActionView::MissingTemplate
+
+    content = content_tag :div, html, attributes
+    if javascript
+      content += content_tag :script, javascript, :type => 'text/javascript'
+    end
+
+    content
   end
 end
