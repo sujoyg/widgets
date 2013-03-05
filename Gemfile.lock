@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    widgets (0.1.3)
+    widgets (0.2.0)
       guid
       jquery-rails (~> 2.2.0)
       rails (~> 3.2.11)

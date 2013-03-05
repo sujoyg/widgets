@@ -45,6 +45,21 @@ describe ApplicationHelper do
         )
         helper.widget(name, options.merge(:widget_id => supplied_widget_id))
       end
+
+      it 'should pass in the widget name as local parameters.' do
+        view.should_receive(:render).with(hash_including locals: hash_including(widget_name: name),
+                                                         formats: [format]
+        )
+        helper.widget(name, options)
+      end
+
+      it 'should use supplied widget_name if explicitly specified.' do
+        supplied_widget_name = random_text
+        view.should_receive(:render).with(hash_including locals: hash_including(widget_name: supplied_widget_name),
+                                                         formats: [format]
+        )
+        helper.widget(name, options.merge(:widget_name => supplied_widget_name))
+      end
     end
 
     describe 'html' do
