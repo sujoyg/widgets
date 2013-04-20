@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec-core', '~> 2.12.2'
   s.add_development_dependency 'rspec-rails', '~> 2.12.2'
+  s.add_development_dependency 'specstar-controllers', '~> 0.0.9'
   s.add_development_dependency 'specstar-support-random', '~> 0.0.6'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'webrat'
