@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    widgets (0.2.1)
+    widgets (0.2.3)
       guid
       jquery-rails (~> 2.2.0)
       rails (~> 3.2.11)
@@ -93,7 +93,7 @@ GEM
       rspec-expectations (~> 2.12.0)
       rspec-mocks (~> 2.12.0)
     specstar-controllers (0.0.9)
-    specstar-support-random (0.0.6)
+    specstar-support-random (0.0.9)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -118,7 +118,7 @@ DEPENDENCIES
   rspec-core (~> 2.12.2)
   rspec-rails (~> 2.12.2)
   specstar-controllers (~> 0.0.9)
-  specstar-support-random (~> 0.0.6)
+  specstar-support-random (~> 0.0.9)
   sqlite3
   webrat
   widgets!

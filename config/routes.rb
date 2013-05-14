@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
-  # Widget names are path names and can have slashes in them.
-  resources :widgets, only: [:show], constraints: {id: /.+/}
+  resources :widgets, only: [] do
+    member do
+      get :remove
+      get :replace
+      get :show, constraints: {id: /.+/} # Widget names are path names and can have slashes in them.
+    end
+  end
 end
